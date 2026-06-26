@@ -1,5 +1,6 @@
 import requests
 from db import insert_food_log
+from datetime import date
 
 #Calling API
 url = "https://api.nal.usda.gov/fdc/v1/foods/search"
@@ -8,7 +9,9 @@ import os
 load_dotenv()
 api = os.getenv("USDA_API_KEY")
 
-response = requests.get(url, params={"query": "chicken breast", "api_key": api})
+food_query = input("What did you eat? ")
+
+response = requests.get(url, params={"query": food_query, "api_key": api})
 if response.status_code == 200:
     data = response.json()
 else:
@@ -29,7 +32,7 @@ for nutrients in data["foods"][0]["foodNutrients"]:
         elif nutrients['nutrientNumber'] == "205":
             carbs = nutrients['value']
 
-insert_food_log("2026-06-23", "chicken breast", protein, carbs, fat, 25, 3)
+insert_food_log(date.today(), food_query, protein, carbs, fat, round(4*protein+4*carbs+9*fat), 3)
 
 #print(f"The number is {nutrients['nutrientNumber']} and the name of the macro is {nutrients['nutrientName']}.")
 #print (f"The actual value for this item is {nutrients['value']} {nutrients['unitName']}")
