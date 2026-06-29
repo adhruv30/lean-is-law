@@ -11,8 +11,12 @@ def parse_food_input (user_input):
     messages=[
         {"role": "user", "content": user_input}
     ],
-    system= 'You are a nutrition assistant. The user will describe what they ate in a day. Extract the foods so each one matches closest with a food from the USDA database and estimate the serving size in grams based on the users description. Respond ONLY with JSON in this format: [{"food": "food name", "serving_size_grams": 100}, {"food": "food name", "serving_size_grams": 200}, etc.] No other text, just the JSON.'
+    system= 'You are a nutrition assistant. The user will describe what they ate. Extract each food as a single entry — do not break named dishes (like "cheeseburger", "pizza slice", "burrito") into their components. Estimate the serving size in grams based on context (e.g. "half" = 50% of a standard serving, "a bowl" = ~300g, "a slice" = ~100g, "a standard serving" = 100g). Use simple food names that match the USDA database. Respond ONLY with a JSON array: [{"food": "food name", "serving_size_grams": 100}] No markdown, no extra text, just the raw JSON array.'
 )
-    result = json.loads(message.content[0].text)
+    ##Check LLM output for debugging 
+    # print(message.content[0].text)
+    text = message.content[0].text
+    text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    result = json.loads(text)
     return result
 

@@ -29,6 +29,10 @@ function App() {
       .then(data => setHistory(data));
   };
 
+  const formatDate = (dateStr) => {
+    return new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
   return (
     <div style={{ maxWidth: '600px', margin: '40px auto', fontFamily: 'sans-serif', padding: '0 20px' }}>
       <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>lean-is-law</h1>
@@ -49,24 +53,29 @@ function App() {
         </button>
       </div>
 
-      {result && (
-        <div style={{ border: '1px solid #eee', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '18px', marginBottom: '15px' }}>{result.food}</h2>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <tbody>
-              {[['Protein', result.protein, 'g'], ['Carbs', result.carbs, 'g'], ['Fat', result.fat, 'g'], ['Calories', result.calories, 'kcal']].map(([label, value, unit]) => (
-                <tr key={label} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                  <td style={{ padding: '10px 0', color: '#666' }}>{label}</td>
-                  <td style={{ padding: '10px 0', textAlign: 'right', fontWeight: 'bold' }}>{value} {unit}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {result && result.length > 0 && (
+        <div style={{ border: '1px solid #eee', borderRadius: '8px', padding: '20px', marginBottom: '30px' }}>
+          <h2 style={{ fontSize: '18px', marginBottom: '15px' }}>Just logged</h2>
+          {result.map((item, index) => (
+            <div key={index} style={{ marginBottom: '15px' }}>
+              <p style={{ fontWeight: 'bold', marginBottom: '8px' }}>{item.food}</p>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <tbody>
+                  {[['Protein', item.protein, 'g'], ['Carbs', item.carbs, 'g'], ['Fat', item.fat, 'g'], ['Calories', item.calories, 'kcal']].map(([label, value, unit]) => (
+                    <tr key={label} style={{ borderBottom: '1px solid #f0f0f0' }}>
+                      <td style={{ padding: '6px 0', color: '#666' }}>{label}</td>
+                      <td style={{ padding: '6px 0', textAlign: 'right', fontWeight: 'bold' }}>{value} {unit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
       )}
 
       {history.length > 0 && (
-        <div style={{ marginTop: '40px' }}>
+        <div style={{ marginTop: '20px' }}>
           <h2 style={{ fontSize: '18px', marginBottom: '20px' }}>Food Log</h2>
           {Object.entries(
             history.reduce((groups, entry) => {
@@ -82,7 +91,7 @@ function App() {
             const totalCalories = entries.reduce((sum, e) => sum + parseFloat(e.calories), 0).toFixed(0);
             return (
               <div key={date} style={{ marginBottom: '30px', border: '1px solid #eee', borderRadius: '8px', padding: '20px' }}>
-                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#666' }}>{date}</h3>
+                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#666' }}>{formatDate(date)}</h3>
                 {entries.map(entry => (
                   <div key={entry.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
                     <span>{entry.food_name}</span>

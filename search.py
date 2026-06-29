@@ -6,7 +6,7 @@ load_dotenv()
 
 ##debug that the numbers were actually formatted as strings
 # print(data["foods"][0]["foodNutrients"][0])
-def food_search(food_query):
+def food_search(food_query, serving_size):
     #Calling API
     url = "https://api.nal.usda.gov/fdc/v1/foods/search"
     api = os.getenv("USDA_API_KEY")
@@ -34,9 +34,13 @@ def food_search(food_query):
                 fat = nutrients['value']
             elif nutrients['nutrientNumber'] == "205":
                 carbs = nutrients['value']
-    dictResult = {"date": date.today(), "food": food_query, "protein": protein, "carbs": carbs, "fat": fat, "calories": round(4*protein+4*carbs+9*fat), "serving_size": 3}
     if protein is None or carbs is None or fat is None:
         return None
+    scale = serving_size / 100
+    protein = round(protein * scale, 1)
+    carbs = round(carbs * scale, 1)
+    fat = round(fat * scale, 1)
+    dictResult = {"date": date.today(), "food": food_query, "protein": protein, "carbs": carbs, "fat": fat, "calories": round(4*protein+4*carbs+9*fat), "serving_size": serving_size}
     return (dictResult)
     #insert_food_log(date.today(), food_query, protein, carbs, fat, round(4*protein+4*carbs+9*fat), 3)
 
