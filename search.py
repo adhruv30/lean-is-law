@@ -18,6 +18,8 @@ def food_search(food_query):
         data = response.json()
     else:
         print(f"failed, with error code {response.status_code}")
+    if not data["foods"]:
+        return None
     ##debug that the numbers were actually formatted as strings
     # print(data["foods"][0]["foodNutrients"][0])
 
@@ -33,6 +35,8 @@ def food_search(food_query):
             elif nutrients['nutrientNumber'] == "205":
                 carbs = nutrients['value']
     dictResult = {"date": date.today(), "food": food_query, "protein": protein, "carbs": carbs, "fat": fat, "calories": round(4*protein+4*carbs+9*fat), "serving_size": 3}
+    if protein is None or carbs is None or fat is None:
+        return None
     return (dictResult)
     #insert_food_log(date.today(), food_query, protein, carbs, fat, round(4*protein+4*carbs+9*fat), 3)
 
