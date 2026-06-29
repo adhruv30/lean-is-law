@@ -171,15 +171,19 @@ export default function App() {
 
         {/* Left Panel — 35% */}
         <div style={{
-          width: '35%', height: '100vh', padding: '48px 40px',
+          width: '35%',
+          height: '100vh',
           borderRight: `1px solid ${colors.border}`,
-          display: 'flex', flexDirection: 'column', justifyContent: 'center'
+          display: 'flex',
+          flexDirection: 'column',
+          overflowY: 'auto',
         }}>
-          <div>
+          {/* Sticky header with input */}
+          <div style={{ padding: '48px 40px 32px', position: 'sticky', top: 0, background: colors.bg, zIndex: 10, borderBottom: `1px solid ${colors.border}` }}>
             <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '34px', fontWeight: '700', letterSpacing: '-0.5px', marginBottom: '8px', color: colors.text }}>
               Lean is <span style={{ color: colors.accent }}>Law</span>
             </h1>
-            <p style={{ color: colors.muted, fontSize: '14px', marginBottom: '40px', lineHeight: '1.5' }}>
+            <p style={{ color: colors.muted, fontSize: '14px', marginBottom: '28px', lineHeight: '1.5' }}>
               You handle the diet. I handle the numbers.
             </p>
 
@@ -213,9 +217,12 @@ export default function App() {
             >
               {loading ? 'Logging...' : 'Log'}
             </button>
+          </div>
 
-            {result && result.length > 0 && (
-              <div style={{ marginTop: '28px', border: `1px solid ${colors.border}`, borderRadius: '10px', overflow: 'hidden' }}>
+          {/* Just logged — scrollable below sticky header */}
+          {result && result.length > 0 && (
+            <div style={{ padding: '24px 40px' }}>
+              <div style={{ border: `1px solid ${colors.border}`, borderRadius: '10px', overflow: 'hidden' }}>
                 <div style={{ padding: '10px 16px', background: colors.card, borderBottom: `1px solid ${colors.border}` }}>
                   <span style={{ fontSize: '11px', fontWeight: '600', color: colors.accent, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Just logged</span>
                 </div>
@@ -229,8 +236,8 @@ export default function App() {
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Right Panel — 65% */}
