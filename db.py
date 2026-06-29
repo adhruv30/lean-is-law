@@ -7,11 +7,11 @@ name = os.getenv("DB_NAME")
 host = os.getenv("DB_HOST")
 user = os.getenv("DB_USER")
 
-def insert_food_log (date, food_name, protein, carbs, fat, calories, serving_size):
+def insert_food_log (date, food_name, protein, carbs, fat, calories, serving_size, user_input):
     connection = psycopg2.connect(dbname=name, host=host, user=user)
     cursor = connection.cursor()
-    sql = "INSERT INTO food_log (date, food_name, protein, carbs, fat, calories, serving_size) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    cursor.execute(sql, (date, food_name, protein, carbs, fat, calories, serving_size))
+    sql = "INSERT INTO food_log (date, food_name, protein, carbs, fat, calories, serving_size, user_input) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    cursor.execute(sql, (date, food_name, protein, carbs, fat, calories, serving_size, user_input))
     connection.commit()
 
 def get_food_log():
@@ -30,7 +30,8 @@ def get_food_log():
             "carbs": row[4],
             "fat": row[5],
             "calories": row[6],
-            "serving_size": row[7]
+            "serving_size": row[7],
+            "user_input": row[8]
         })
     return result
 

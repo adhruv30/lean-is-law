@@ -17,4 +17,5 @@ CREATE TABLE food_log(
     fat NUMERIC NOT NULL,
     calories NUMERIC NOT NULL,
     serving_size NUMERIC NOT NULL
+    user_input TEXT NOT NULL
 );

@@ -18,7 +18,7 @@ def log_food():
         result = food_search(food["food"], food["serving_size_grams"])
         if result is None:
             continue
-        insert_food_log(result["date"], result["food"], result["protein"], result["carbs"], result["fat"], result["calories"], result["serving_size"])
+        insert_food_log(result["date"], result["food"], result["protein"], result["carbs"], result["fat"], result["calories"], result["serving_size"], food_query)
         results.append(result)
     return jsonify(results)
 
