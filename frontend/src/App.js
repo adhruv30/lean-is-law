@@ -65,7 +65,8 @@ function DayCard({ date, entries }) {
   const totalFat = entries.reduce((s, e) => s + parseFloat(e.fat), 0).toFixed(1);
   const totalCalories = entries.reduce((s, e) => s + parseFloat(e.calories), 0).toFixed(0);
 
-  const formatted = new Date(date).toLocaleDateString('en-US', {
+  const [year, month, day] = date.split('-');
+  const formatted = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric'
   });
 
