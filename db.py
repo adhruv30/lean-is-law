@@ -24,7 +24,7 @@ def get_food_log():
     for row in rows:
         result.append({
             "id": row[0],
-            "date": row[1],
+            "date": str(row[1]),
             "food_name": row[2],
             "protein": row[3], 
             "carbs": row[4],

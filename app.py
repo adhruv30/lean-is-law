@@ -15,7 +15,22 @@ def log_food():
     foods = parse_food_input(food_query)
     results = []
     for food in foods:
-        result = food_search(food["food"], food["serving_size_grams"])
+        if "macros" in food:
+            protein = food["macros"]["protein"]
+            carbs = food["macros"]["carbs"]
+            fat = food["macros"]["fat"]
+            calories = round(4*protein + 4*carbs + 9*fat)
+            result = {
+                "date": str(date.today()),
+                "food": food["food"],
+                "protein": protein,
+                "carbs": carbs,
+                "fat": fat,
+                "calories": calories,
+                "serving_size": food["serving_size_grams"]
+            }
+        else:
+            result = food_search(food["food"], food["serving_size_grams"])
         if result is None:
             continue
         insert_food_log(result["date"], result["food"], result["protein"], result["carbs"], result["fat"], result["calories"], result["serving_size"], food_query)
